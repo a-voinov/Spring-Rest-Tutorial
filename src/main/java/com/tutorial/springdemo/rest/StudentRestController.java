@@ -1,6 +1,7 @@
 package com.tutorial.springdemo.rest;
 
 import com.tutorial.springdemo.entity.Student;
+import com.tutorial.springdemo.exception.StudentNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,12 @@ public class StudentRestController {
     //define endpoint for "/students/{studentId}" - return student at index
     @GetMapping("/students/{studentId}")
     public Student getStudent(@PathVariable int studentId){
+        //check the studentId against the list size
+        if (studentId >= students.size() || studentId < 0 ) {
+            throw new StudentNotFoundException("Student Id not found - " + studentId);
+        }
         return students.get(studentId);
     }
+
+
 }
